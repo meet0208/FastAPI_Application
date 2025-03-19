@@ -1,0 +1,12 @@
+---
+name: checks
+
+on: [push]
+
+jobs:
+  test:
+    name: Testing
+    runs-out: ubuntu-20.04
+    steps:
+      - name: Test
+        run: pytest
