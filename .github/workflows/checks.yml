@@ -10,9 +10,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Install Pytest
-        run: pip install pytest
-      - name: Install fastapi
-        run: pip install fastapi==0.115.6
+      - name: install requirements
+        run: pip install -r requirements.txt
       - name: Test
         run: pytest
