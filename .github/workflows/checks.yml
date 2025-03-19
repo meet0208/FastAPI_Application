@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+      - name: Install Pytest
+        run: pip install pytest
       - name: Test
         run: pytest
