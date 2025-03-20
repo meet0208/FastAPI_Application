@@ -7,6 +7,15 @@ jobs:
   test:
     name: Testing
     runs-on: ubuntu-22.04
+    services:
+      postgres:
+        image: postgres:15  # Use the latest stable PostgreSQL version
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: admin
+          POSTGRES_DB: TodoApplicationDatabase
+        ports:
+          - 5432:5432
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
