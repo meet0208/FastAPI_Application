@@ -6,8 +6,8 @@ from .Router import auth, todos, admin, users
 
 """
 This three variables/tokens are used to disable the swaggers.
-If want to use any of doc or redoc can remove all or if want to use single url
-we can give url to them and also we need to enable openapi_url.  
+If want to use any of doc or redoc can remove all or 
+if want to use single url we can give url to them and also we need to enable openapi_url.  
 """
 app = FastAPI(
 

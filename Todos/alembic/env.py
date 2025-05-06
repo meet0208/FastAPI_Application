@@ -5,20 +5,38 @@ from sqlalchemy import pool
 
 from alembic import context
 
+import os
+import sys
+
+import os
+import sys
+
+# Set working directory to one level above Todos (FastAPI_learning/)
+"""
+This are the import changes so the models.Base works perfectly.
+"""
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+
+# Tell Python this is a module under the Todos package
+import Todos.models
+from Todos.models import Base
+
+# from models import Base
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
-if config.config_file_name is not None:
-    fileConfig(config.config_file_name)
+# if config.config_file_name is not None:
+fileConfig(config.config_file_name)
 
 # add your model's MetaData object here
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
+target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
