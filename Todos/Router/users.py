@@ -36,10 +36,10 @@ class UserVerification(BaseModel):
 async def read_users(user: user_dependency, db: db_dependency):
     if user is None:
         raise HTTPException(status_code=401, detail="Authentication Failed")
-    user_model = db.query(Users).filter(Users.id == user.get('id')).first()
-    if user_model is None:
-        raise HTTPException(status_code=404, detail="User not found")
-    return user_model
+    return db.query(Users).filter(Users.id == user.get('id')).first()
+    # if user_model is None:
+    #     raise HTTPException(status_code=404, detail="User not found")
+    # return user_model
 
 @router.put("/change_password", status_code=status.HTTP_204_NO_CONTENT)
 async def change_password(user: user_dependency, db: db_dependency

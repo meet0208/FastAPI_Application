@@ -1,6 +1,6 @@
 from typing import Annotated
 import pytest
-from Todos.Router.auth import get_db
+# from Todos.Router.auth import get_db
 from httpcore import request
 from ..Router.todos import get_db, get_current_user
 from fastapi import status, Depends
@@ -12,12 +12,12 @@ app.dependency_overrides[get_current_user] = override_get_current_user
 def test_read_all_authenticated(test_todo):
     response = client.get('/')
     assert response.status_code == status.HTTP_200_OK
-    assert response.json() == [{'complete': False, 'title': "Learn fatsapi", 'description': "Learn fatsapi", 'priority': 1, 'id':1, 'owner_id': 4}]
+    assert response.json() == [{'complete': False, 'title': "Learn fatsapi", 'description': "Learn fatsapi", 'priority': 1, 'id':1, 'owner_id': 1}]
 
 def test_read_one_authenticated(test_todo):
     response = client.get('/todos/1')
     assert response.status_code == status.HTTP_200_OK
-    assert response.json() == {'complete': False, 'title': "Learn fatsapi", 'description': "Learn fatsapi", 'priority': 1, 'id':1, 'owner_id': 4}
+    assert response.json() == {'complete': False, 'title': "Learn fatsapi", 'description': "Learn fatsapi", 'priority': 1, 'id':1, 'owner_id': 1}
 
 def test_read_one_not_authenticated():
     response = client.get('/todos/20')
