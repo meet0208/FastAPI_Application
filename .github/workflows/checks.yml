@@ -22,4 +22,4 @@ jobs:
       - name: install requirements
         run: pip install -r requirements.txt
       - name: Test
-        run: pytest
+        run: pytest FastAPI_Application/Todos/test
