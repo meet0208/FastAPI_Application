@@ -45,6 +45,7 @@ def test_todo():
     db = TestingSessionLocal()
     db.add(todo)
     db.commit()
+    db.refresh(todo)
     """ 
     "return todo" 'If we use this than the code written below to delete the created data in the todo table will never executes, as return doesn't
     allow to complete the task whereas if we use yield than it doesn't stop until all the task gets complete related to the todo.
@@ -68,6 +69,7 @@ def test_user():
     db = TestingSessionLocal()
     db.add(user)
     db.commit()
+    db.refresh(user)
     yield user
     with engine.connect() as conn:
         conn.execute(text("DELETE FROM users;"))
