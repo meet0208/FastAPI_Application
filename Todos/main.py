@@ -25,7 +25,8 @@ app = FastAPI(
 Base.metadata.create_all(bind=engine)
 templates = Jinja2Templates(directory="Todos/templates")
 
-app.mount("/static", StaticFiles(directory="todos/static"), name="static")
+if os.getenv("TESTING") != "1":
+    app.mount("/static", StaticFiles(directory="Todos/static"), name="static")
 
 @app.get("/")
 def test(request: Request):
