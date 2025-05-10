@@ -14,7 +14,7 @@ engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Wherever you're setting up your test DB
-# Base.metadata.drop_all(bind=engine)  # Optional, to clean old tables
+Base.metadata.drop_all(bind=engine)  # Optional, to clean old tables
 Base.metadata.create_all(bind=engine)
 
 # Base.metadata.create_all(bind=engine)
