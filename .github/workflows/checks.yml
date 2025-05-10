@@ -22,6 +22,4 @@ jobs:
       - name: install requirements
         run: pip install -r requirements.txt
       - name: Test
-        run: pytest 
-        env:
-          TESTING: "1"
+        run: pytest
