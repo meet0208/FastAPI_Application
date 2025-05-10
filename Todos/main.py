@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI, Request
 from .models import Base
 from .database import engine
