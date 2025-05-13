@@ -1,10 +1,13 @@
 import os
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, status
+from starlette.responses import HTMLResponse
+
 from .models import Base
 from .database import engine
 from .Router import auth, todos, admin, users
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import RedirectResponse
 
 
 """
@@ -24,14 +27,16 @@ app = FastAPI(
 )
 
 Base.metadata.create_all(bind=engine)
-templates = Jinja2Templates(directory="Todos/templates")
+
+# templates = Jinja2Templates(directory="Todos/templates")
 
 if os.getenv("TESTING") != "1":
     app.mount("/static", StaticFiles(directory="Todos/static"), name="static")
 
 @app.get("/")
 def test(request: Request):
-    return templates.TemplateResponse("home.html", {"request": request})
+    # return templates.TemplateResponse("todo.html", {"request": request})
+    return RedirectResponse(url="/todos/todo-page", status_code=status.HTTP_302_FOUND)
 
 @app.get("/healthy")
 def health_check():
