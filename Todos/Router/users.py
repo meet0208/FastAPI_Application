@@ -1,5 +1,7 @@
-from ..database import SessionLocal
-from fastapi import FastAPI, Depends, HTTPException, Path, APIRouter
+from Todos.Router.todos import templates
+
+from ..database import SessionLocal, engine
+from fastapi import FastAPI, Depends, HTTPException, Path, APIRouter, Form, Request
 from ..models import Users
 from ..database import engine
 from typing import Annotated
@@ -9,6 +11,9 @@ from sqlalchemy.dialects.postgresql import array
 from sqlalchemy.orm import Session
 from starlette import status
 from .auth import get_current_user
+from starlette.responses import RedirectResponse
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 
 
 router = APIRouter(
@@ -31,7 +36,42 @@ class UserVerification(BaseModel):
     password: str
     new_password: str = Field(min_length=6)
 
+### Pages ###
+@router.get("/edit-password", response_class=HTMLResponse)
+async def render_edit_user_password(request: Request):
+    try:
+        user = await get_current_user(request.cookies.get('access_token'))
+        if user is None:
+            return redirect_to_login()
 
+        return templates.TemplateResponse("edit-user-password.html", {"request": request, "user": user})
+    except:
+        return redirect_to_login()
+
+@router.post("/edit-password", response_class=HTMLResponse)
+async def user_password_change(request: Request, db: db_dependency, username: str = Form(...), password: str = Form(...),
+                               password2: str = Form(...)):
+    try:
+        user = await get_current_user(request.cookies.get('access_token'))
+        if user is None:
+            return redirect_to_login()
+
+        user_data = db.query(Users).filter(Users.username == username).first()
+
+        msg = "Invalid username or password"
+        if user_data is not None:
+            if username == user_data.username and password == password2:
+                user_data.hashed_password = bcrypt_context.hash(password2)
+                db.add(user_data)
+                db.commit()
+                msg = "Password updated successfully"
+
+        return templates.TemplateResponse("edit-user-password.html", {"request": request, "user": user, "msg": msg})
+    except:
+        return redirect_to_login()
+
+
+### Endpoints ###
 @router.get("/", status_code=status.HTTP_200_OK)
 async def read_users(user: user_dependency, db: db_dependency):
     if user is None:
